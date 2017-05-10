@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.shizhefei.indicator.DisplayUtil;
 import com.shizhefei.indicator.demo.R;
+import com.shizhefei.view.indicator.Indicator;
 import com.shizhefei.view.indicator.IndicatorViewPager;
 import com.shizhefei.view.indicator.ScrollIndicatorView;
 import com.shizhefei.view.indicator.slidebar.ColorBar;
@@ -25,24 +26,66 @@ import com.shizhefei.view.indicator.transition.OnTransitionTextListener;
  */
 public class MoreTab2Activity extends FragmentActivity {
     private IndicatorViewPager indicatorViewPager;
+    private MyAdapter myAdapter;
+    private ScrollIndicatorView scrollIndicatorView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_moretab2);
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.moretab_viewPager);
-        ScrollIndicatorView scrollIndicatorView = (ScrollIndicatorView) findViewById(R.id.moretab_indicator);
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.moretab_viewPager);
+        scrollIndicatorView = (ScrollIndicatorView) findViewById(R.id.moretab_indicator);
 
         float unSelectSize = 12;
-        float selectSize = unSelectSize * 1.3f;
-        scrollIndicatorView.setOnTransitionListener(new OnTransitionTextListener().setColor(0xFF2196F3, Color.GRAY).setSize(selectSize, unSelectSize));
+        float selectSize = unSelectSize;
+//        float selectSize = unSelectSize * 1.3f;
+        scrollIndicatorView.setOnTransitionListener(new OnTransitionTextListener()
+//                .setColor(0xFF2196F3, Color.GRAY)
+                .setColor(Color.GRAY, Color.GRAY)
+                .setSize(selectSize, selectSize));
 
         scrollIndicatorView.setScrollBar(new ColorBar(this, 0xFF2196F3, 4));
-
         viewPager.setOffscreenPageLimit(2);
         indicatorViewPager = new IndicatorViewPager(scrollIndicatorView, viewPager);
-        indicatorViewPager.setAdapter(new MyAdapter());
+        indicatorViewPager.setAdapter(myAdapter = new MyAdapter());
+        indicatorViewPager.setClickIndicatorAnim(false);
+        scrollIndicatorView.setOnItemSelectListener(new Indicator.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(View selectItemView, int select, int preSelect) {
+                System.out.println("select:" + select + "\t preSelect:" + preSelect);
+                viewPager.setCurrentItem(select, false);
+            }
+        });
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                System.out.println("--->onPageScrolled:" + position +
+                        "\t positionOffset:" + positionOffset + "\t positionOffsetPixels:" + positionOffsetPixels);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                if (scrollIndicatorView.getPreSelectItem() != -1)
+                    ((TextView) scrollIndicatorView.getItemView(scrollIndicatorView.getPreSelectItem())).getPaint().setFakeBoldText(false);
+
+                ((TextView) scrollIndicatorView.getItemView(position)).getPaint().setFakeBoldText(true);
+                System.out.println("onPageSelected:"+position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                System.out.println("state:" + state);
+            }
+        });
+        indicatorViewPager.setCurrentItem(0,false);
+        try {
+            ((TextView) scrollIndicatorView.getItemView(0)).getPaint().setFakeBoldText(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private class MyAdapter extends IndicatorViewPager.IndicatorViewPagerAdapter {
@@ -66,7 +109,7 @@ public class MoreTab2Activity extends FragmentActivity {
             int padding = DisplayUtil.dipToPix(getApplicationContext(), 8);
             //因为wrap的布局 字体大小变化会导致textView大小变化产生抖动，这里通过设置textView宽度就避免抖动现象
             //1.3f是根据上面字体大小变化的倍数1.3f设置
-            textView.setWidth((int) (witdh * 1.3f) + padding);
+//            textView.setWidth((int) (witdh * 1.3f) + padding);
 
             return convertView;
         }

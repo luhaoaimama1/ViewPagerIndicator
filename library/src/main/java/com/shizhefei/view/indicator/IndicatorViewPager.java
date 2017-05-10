@@ -111,6 +111,7 @@ public class IndicatorViewPager {
      * @param anim 是否动画效果
      */
     public void setCurrentItem(int item, boolean anim) {
+        System.out.println("setCurrentItem"+item);
         viewPager.setCurrentItem(item, anim);
         indicatorView.setCurrentItem(item, anim);
     }

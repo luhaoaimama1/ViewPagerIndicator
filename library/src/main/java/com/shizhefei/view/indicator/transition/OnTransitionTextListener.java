@@ -41,7 +41,7 @@ public class OnTransitionTextListener implements OnTransitionListener {
 	}
 
 	public final OnTransitionTextListener setValueFromRes(Context context, int selectColorId, int unSelectColorId, int selectSizeId,
-			int unSelectSizeId) {
+														  int unSelectSizeId) {
 		setColorId(context, selectColorId, unSelectColorId);
 		setSizeId(context, selectSizeId, unSelectSizeId);
 		return this;
@@ -87,6 +87,7 @@ public class OnTransitionTextListener implements OnTransitionListener {
 		if (unSelectSize > 0 && selectSize > 0) {
 			if (isPxSize) {
 				selectTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, unSelectSize + dFontFize * selectPercent);
+
 			} else {
 				selectTextView.setTextSize(unSelectSize + dFontFize * selectPercent);
 			}
