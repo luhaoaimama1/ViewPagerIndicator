@@ -401,7 +401,7 @@ public class FixedIndicatorView extends LinearLayout implements Indicator {
             offsetX = currentView.getLeft();
         }
         int scrollBarHeight = scrollBar.getSlideView().getHeight();
-        int scrollBarWidth = (int) (scrollBar.getSlideView().getWidth()*0.5);
+        int scrollBarWidth = (int) (scrollBar.getSlideView().getWidth());
         offsetX += (tabWidth - scrollBarWidth) / 2;
 
         int saveCount = canvas.save();
@@ -440,6 +440,8 @@ public class FixedIndicatorView extends LinearLayout implements Indicator {
         } else {
             canvas.translate(offsetX, offsetY);
             canvas.clipRect(0, 0, scrollBarWidth, scrollBarHeight); // needed
+            canvas.translate(scrollBarWidth*(1-scrollBar.slideViewRadio())/2, 0);
+            canvas.scale(scrollBar.slideViewRadio(),1);
             //直接绘制
             scrollBar.getSlideView().draw(canvas);
         }

@@ -79,4 +79,8 @@ public class DrawableBar implements ScrollBar {
 	public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 	}
 
+	@Override
+	public float slideViewRadio() {
+		return 1;
+	}
 }

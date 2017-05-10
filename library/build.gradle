@@ -1,6 +1,9 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'//添加
-// 这个version是区分library版本的，因此当我们需要更新library时记得修改这个version
+// JitPack Maven
+apply plugin: 'com.github.dcendents.android-maven'
+// Your Group
+group = 'com.github.luhaoaimama1'
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
@@ -27,15 +30,34 @@ dependencies {
     provided 'com.android.support:support-v4:23.4.0'
 }
 
-//上传到jcenter 执行
-//gradlew clean build bintrayUpload -PbintrayUser=用户名 -PbintrayKey=apiKey -PdryRun=false
-//添加
-//添加
-publish {
-    userOrg = 'luckyjayce'//bintray.com用户名
-    groupId = 'com.shizhefei'//jcenter上的路径
-    artifactId = 'ViewPagerIndicator'//项目名称
-    publishVersion = '1.1.5'//版本号
-    desc = '实现滑动tab，引导页等效果'//描述，不重要
-    website = 'https://github.com/LuckyJayce/ViewPagerIndicator'//网站，不重要；尽量模拟github上的地址，例如我这样的；当然你有地址最好了
+
+//---------------jitPack 文档注释 Start------------------------
+// build a jar with source files
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
 }
+task javadoc(type: Javadoc) {
+    failOnError false
+    source = android.sourceSets.main.java.sourceFiles
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    classpath += configurations.compile
+}
+// build a jar with javadoc
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+// uncomment to build a jar file in addition to the default aar file
+//android.libraryVariants.all { variant ->
+//    def name = variant.buildType.name
+//    def task = project.tasks.create "jar${name.capitalize()}", Jar
+//    task.dependsOn variant.javaCompile
+//    task.from variant.javaCompile.destinationDir
+//    artifacts.add('archives', task);
+//}
+//---------------jitPack 文档注释Over------------------------

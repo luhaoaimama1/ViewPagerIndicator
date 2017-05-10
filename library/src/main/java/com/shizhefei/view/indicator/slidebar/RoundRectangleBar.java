@@ -7,21 +7,21 @@ import android.view.View;
  * 
  * 通过颜色来设置滑动块
  */
-public class ColorBar implements ScrollBar {
+public class RoundRectangleBar implements ScrollBar {
 	protected Gravity gravity;
 	protected View view;
 	protected int color;
 	protected int height;
 	protected int width;
 
-	public ColorBar(Context context, int color, int height) {
-		this(context, color, height, Gravity.BOTTOM);
+	public RoundRectangleBar(Context context, int color, int height, float rx) {
+		this(context, color, height, Gravity.BOTTOM,rx);
 	}
 
-	public ColorBar(Context context, int color, int height, Gravity gravity) {
-		view = new View(context);
+	public RoundRectangleBar(Context context, int color, int height, Gravity gravity, float rx) {
+		view = new RoundRectangleView(context,rx);
 		this.color = color;
-		view.setBackgroundColor(color);
+//		view.setBackgroundColor(color);
 		this.height = height;
 		this.gravity = gravity;
 	}
@@ -32,7 +32,7 @@ public class ColorBar implements ScrollBar {
 
 	public void setColor(int color) {
 		this.color = color;
-		view.setBackgroundColor(color);
+//		view.setBackgroundColor(color);
 	}
 
 	public void setHeight(int height) {
@@ -65,11 +65,6 @@ public class ColorBar implements ScrollBar {
 	}
 
 	@Override
-	public float slideViewRadio() {
-		return 1;
-	}
-
-	@Override
 	public Gravity getGravity() {
 		return gravity;
 	}
@@ -81,5 +76,8 @@ public class ColorBar implements ScrollBar {
 	@Override
 	public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 	}
-
+	@Override
+	public float slideViewRadio() {
+		return 0.8F;
+	}
 }

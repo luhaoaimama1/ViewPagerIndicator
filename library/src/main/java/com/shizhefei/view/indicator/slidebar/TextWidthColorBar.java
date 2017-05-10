@@ -79,4 +79,9 @@ public class TextWidthColorBar extends ColorBar {
 		return width;
 	}
 
+	@Override
+	public float slideViewRadio() {
+		return 1;
+	}
+
 }

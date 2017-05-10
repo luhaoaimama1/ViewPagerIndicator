@@ -207,4 +207,8 @@ public class SpringBar extends View implements ScrollBar {
         }
 
     }
+    @Override
+    public float slideViewRadio() {
+        return 1;
+    }
 }

@@ -19,6 +19,7 @@ import com.shizhefei.view.indicator.Indicator;
 import com.shizhefei.view.indicator.IndicatorViewPager;
 import com.shizhefei.view.indicator.ScrollIndicatorView;
 import com.shizhefei.view.indicator.slidebar.ColorBar;
+import com.shizhefei.view.indicator.slidebar.RoundRectangleBar;
 import com.shizhefei.view.indicator.transition.OnTransitionTextListener;
 
 /**
@@ -44,8 +45,7 @@ public class MoreTab2Activity extends FragmentActivity {
 //                .setColor(0xFF2196F3, Color.GRAY)
                 .setColor(Color.GRAY, Color.GRAY)
                 .setSize(selectSize, selectSize));
-
-        scrollIndicatorView.setScrollBar(new ColorBar(this, 0xFF2196F3, 4));
+        scrollIndicatorView.setScrollBar(new RoundRectangleBar(this, 0xFF2196F3, 30,60));
         viewPager.setOffscreenPageLimit(2);
         indicatorViewPager = new IndicatorViewPager(scrollIndicatorView, viewPager);
         indicatorViewPager.setAdapter(myAdapter = new MyAdapter());

@@ -18,6 +18,8 @@ public interface ScrollBar {
 
     public View getSlideView();
 
+    public float slideViewRadio();
+
     public Gravity getGravity();
 
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels);
