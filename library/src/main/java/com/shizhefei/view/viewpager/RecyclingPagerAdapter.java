@@ -43,7 +43,7 @@ public abstract class RecyclingPagerAdapter extends PagerAdapter {
 	}
 
 	@Override
-	public final void destroyItem(ViewGroup container, int position, Object object) {
+	public  void destroyItem(ViewGroup container, int position, Object object) {
 		View view = (View) object;
 		container.removeView(view);
 		int viewType = getItemViewType(position);

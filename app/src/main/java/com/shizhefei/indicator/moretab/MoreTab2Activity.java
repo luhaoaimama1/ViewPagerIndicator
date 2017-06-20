@@ -45,7 +45,7 @@ public class MoreTab2Activity extends FragmentActivity {
 //                .setColor(0xFF2196F3, Color.GRAY)
                 .setColor(Color.GRAY, Color.GRAY)
                 .setSize(selectSize, selectSize));
-        scrollIndicatorView.setScrollBar(new RoundRectangleBar(this, 0xFF2196F3, 30,60));
+        scrollIndicatorView.setScrollBar(new RoundRectangleBar(this, 0xFF2196F3, 30, 60));
         viewPager.setOffscreenPageLimit(2);
         indicatorViewPager = new IndicatorViewPager(scrollIndicatorView, viewPager);
         indicatorViewPager.setAdapter(myAdapter = new MyAdapter());
@@ -72,7 +72,7 @@ public class MoreTab2Activity extends FragmentActivity {
                     ((TextView) scrollIndicatorView.getItemView(scrollIndicatorView.getPreSelectItem())).getPaint().setFakeBoldText(false);
 
                 ((TextView) scrollIndicatorView.getItemView(position)).getPaint().setFakeBoldText(true);
-                System.out.println("onPageSelected:"+position);
+                System.out.println("onPageSelected:" + position);
             }
 
             @Override
@@ -80,7 +80,7 @@ public class MoreTab2Activity extends FragmentActivity {
                 System.out.println("state:" + state);
             }
         });
-        indicatorViewPager.setCurrentItem(0,false);
+        indicatorViewPager.setCurrentItem(0, false);
         try {
             ((TextView) scrollIndicatorView.getItemView(0)).getPaint().setFakeBoldText(true);
         } catch (Exception e) {
@@ -98,6 +98,12 @@ public class MoreTab2Activity extends FragmentActivity {
         }
 
         @Override
+        public void destroyItem(View container, int position, Object object) {
+            super.destroyItem(container, position, object);
+            System.out.println("destroyItem_position:" + position);
+        }
+
+        @Override
         public View getViewForTab(int position, View convertView, ViewGroup container) {
             if (convertView == null) {
                 convertView = getLayoutInflater().inflate(R.layout.tab_top, container, false);
@@ -106,10 +112,16 @@ public class MoreTab2Activity extends FragmentActivity {
             textView.setText(versions[position]);
 
             int witdh = getTextWidth(textView);
-            int padding = DisplayUtil.dipToPix(getApplicationContext(), 8);
+            int padding = DisplayUtil.dipToPix(getApplicationContext(), 40);
             //因为wrap的布局 字体大小变化会导致textView大小变化产生抖动，这里通过设置textView宽度就避免抖动现象
+            if (position == 0) {
+                ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) textView.getLayoutParams();
+                layoutParams.leftMargin = 100;
+                textView.setLayoutParams(layoutParams);
+
+            }
             //1.3f是根据上面字体大小变化的倍数1.3f设置
-//            textView.setWidth((int) (witdh * 1.3f) + padding);
+            textView.setWidth((int) (witdh * 1.3f) + padding);
 
             return convertView;
         }

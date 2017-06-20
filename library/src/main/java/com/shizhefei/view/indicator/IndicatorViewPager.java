@@ -312,6 +312,16 @@ public class IndicatorViewPager {
             public int getViewTypeCount() {
                 return IndicatorViewPagerAdapter.this.getPageViewTypeCount();
             }
+
+            @Override
+            public  void destroyItem(ViewGroup container, int position, Object object) {
+                IndicatorViewPagerAdapter.this.destroyItem(container,position,object);
+            }
+
+            @Override
+            public void finishUpdate(ViewGroup container) {
+                super.finishUpdate(container);
+            }
         };
 
 
@@ -333,6 +343,10 @@ public class IndicatorViewPager {
         }
 
         public abstract int getCount();
+
+        public  void destroyItem(View container, int position, Object object){
+
+        };
 
         public abstract View getViewForTab(int position, View convertView, ViewGroup container);
 
